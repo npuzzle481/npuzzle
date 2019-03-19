@@ -7,16 +7,45 @@ using namespace std;
 State::State() {
 
 }
-void State::addCost(int a) {}
+void State::addCost(int a) {
+    cost=cost+a;
+}
 
-void State::update(Matrix elementMatrix) {}
+void State::update(Matrix elementMatrix) {
+    StateMatrix=elementMatrix;
+    n=StateMatrix.colsize();
+    determineType();
+}
 
-State::State(Matrix elementMatrix){}
+State::State(Matrix elementMatrix)
+{
+    StateMatrix=elementMatrix;
+    n=StateMatrix.colsize();
+    determineType();
+}
 
-QString State::showMatrix(){}
+QString State::showMatrix()
+{
+    QString s="";
+    int k=0;
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<n;j++) {
+            k=StateMatrix[i][j];
+            if(k<10) {
+                s.append(" ");
+            }
+                s.append(QString::number(k).append(" "));
+        }
+        s.append("\n");
+    }
+    return s;
+}
 
-Matrix State::moveTile(int row, int col, int rowold, int colold) {}
-
+Matrix State::moveTile(int row, int col, int rowold, int colold) {
+    Matrix B=StateMatrix;
+    mswap(B[row][col],B[rowold][colold]);
+    return B;
+}
 /*
  *Look for position of 0, and determine type accordingly
  * */
