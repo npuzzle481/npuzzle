@@ -14,6 +14,9 @@ public:
     explicit generateDialog(QWidget *parent = 0);
     ~generateDialog();
 
+private slots:
+    void on_buttonBox_accepted();
+
 private:
     Ui::generateDialog *ui;
 };
