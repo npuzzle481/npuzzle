@@ -2,10 +2,15 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QDebug>
+#include <globals.h>
+#include <generatedialog.h>
+#include <state.h>
+#include "pqitem.h"
+#include "pq.h"
 
 
 // TODO
-int heuristic1() {return 0;}
+
 int heuristic2() {return 0;}
 int heuristic3() {return 0;}
 int A_star() {return 0;}
@@ -16,7 +21,7 @@ int BFS() {return 0;}
 void MainWindow::on_button_generatePuzzle_clicked(){}
 void MainWindow::on_button_start_toggled(bool checked){}
 void MainWindow::on_button_showTheSol_clicked(){}
-
+void MainWindow::on_button_step_clicked(){}
 
 
 //create main window
@@ -45,3 +50,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+int heuristic1(State* S) 
+{
+    int n=S->n;
+    return (n - 2 - S->indexCol[0] + n - S->indexRow[0]+n - 2 - S->indexCol[1] + n - S->indexRow[1]);
+}
