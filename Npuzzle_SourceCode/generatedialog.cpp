@@ -74,3 +74,15 @@ generateDialog::generateDialog(QWidget *parent) :
 generateDialog::~generateDialog(){
     delete ui;
 }
+
+void generateDialog::on_buttonBox_accepted()
+{
+    Matrix M;
+    int size;
+    int n;
+    n=ui->edit_step2sol->text().toInt();
+    size=ui->edit_puzzleSize->text().toInt();
+    M=generateMatrix(size,n);
+    initialState->update(M);
+    qDebug()<<initialState->showMatrix();
+}
