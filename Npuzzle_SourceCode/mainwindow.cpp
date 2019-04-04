@@ -207,70 +207,7 @@ int A_Search(Ui::MainWindow *ui,int h) {
         }
 }
 
-int DFS_iterative(Ui::MainWindow *ui) {
-    // The DFS is started at first
-        bool stop_search=0;
-        if(DFS_finalID==initialState->uniqueID) {
-            finalState=initialState;
-            return 1;
-        }
-        while(!DFS_Stack->isEmpty() && !stop_search && (ui->button_start->isChecked() || *iteration_step) ) {
-            *dfs_iteration_number=*dfs_iteration_number+1;
-            stateList aStateList=DFS_Stack->takeFirst();
-            int sss=DFS_Stack->size();
-            /*
-            qDebug()<<"State Cost:"<<aStateList.pointer->uniqueID<<" : "<<aStateList.pointer->cost;
-            for(int i=0;i<sss;i++) {
-                qDebug()<<DFS_Stack->at(i).pointer->showMatrix();
-                qDebug()<<DFS_Stack->at(i).pointer->cost;
-            }
-*/
 
-            DFS_visited->append(aStateList);
-            *iteration_number=*iteration_number+1;
-            //qDebug()<<"DFS Iteration number:"<<*dfs_iteration_number;
-            ui->edit_iterationNumber->setText(QString::number(*iteration_number));
-            QString s;
-            s.append(aStateList.pointer->showMatrix());
-            ui->edit_puzzleState->clear();
-            ui->edit_puzzleState->appendPlainText(s);
-            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-            //qDebug()<<aStateList.ID;
-            if(aStateList.ID==*DFS_finalID) {
-                qDebug()<<"ID is Found";
-                finalState=aStateList.pointer;
-                return 1;
-                ui->button_start->setChecked(0);
-            }
-                _SuccList list1=aStateList.pointer->succsList;
-                while(!list1.isEmpty() && !stop_search && (aStateList.pointer->cost < *max_iteration)) {
-
-
-                    succObject aObject=list1.takeFirst();
-                    Matrix M = aStateList.pointer->moveTile(aObject.row , aObject.col,aObject.rowold , aObject.colold);
-                    State* newState=getNewState(M);
-
-                    // Set the Back Pointer
-                    newState->backPointer=aStateList.pointer;
-                    newState->addCost(aStateList.pointer->cost + 1);
-                    if(!checkIdExists(DFS_visited,newState->uniqueID)) {
-                        stateList alist(newState->uniqueID,newState);
-                        DFS_Stack->push_front(alist);
-                        qDebug()<<"New added State:"<<newState->uniqueID<<" : "<<newState->cost;
-                    }
-                    else delete newState;
-                }
-            qDebug()<<"-----------";
-            *iteration_step=0;
-
-
-       }
-        if (ui->button_start->isChecked() || *iteration_step) {
-            //qDebug()<<"Not Found in this iteration:"<<*dfs_iteration_number;
-            return 0;
-        }
-        else return -1;
-}
 
 void iterativeDeeping(Ui::MainWindow *ui) {
     if(!*isIterativeRunning) {
